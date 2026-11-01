@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Udaansetu - Online Mock Test Portal</title>
+  <meta name="description" content="Udaansetu is a modern, high-performance mock test platform for JEE Main, NEET, SSC, and Quantitative Aptitude.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================== TOP NAVIGATION ==================== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="#" class="brand-logo" onclick="app.showHomeView(); return false;">Udaansetu</a>
+      <div class="header-actions">
+        <button id="btnLogout" class="btn-logout" onclick="app.openProfileModal()">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== DASHBOARD VIEW ==================== -->
+  <main id="homeView" class="main-wrapper">
+    <!-- Greeting Section -->
+    <section class="greeting-section">
+      <h1 class="user-title">Hello, <span id="candidateName">PRINCE</span></h1>
+      <p class="user-subtitle">Pick a test series and start when you are ready. The timer begins as soon as the test opens.</p>
+    </section>
+
+    <!-- Available Tests Section -->
+    <section>
+      <h2 class="section-title">Available tests</h2>
+      <div class="tests-grid" id="testsGrid">
+        <!-- 1. JEE Main Mock 1 -->
+        <article class="test-card">
+          <div class="card-top">
+            <h3 class="card-title">JEE Main Mock 1</h3>
+            <p class="card-subtitle">Physics, Chemistry and Maths</p>
+            <div class="card-meta">
+              <span>4 questions</span> · <span>10 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('jee_main_1')">Start test</button>
+        </article>
+
+        <!-- 2. NEET Biology Quick Test -->
+        <article class="test-card">
+          <div class="card-top">
+            <h3 class="card-title">NEET Biology Quick Test</h3>
+            <p class="card-subtitle">Cell biology and genetics</p>
+            <div class="card-meta">
+              <span>4 questions</span> · <span>8 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('neet_bio_quick')">Start test</button>
+        </article>
+
+        <!-- 3. SSC General Awareness and Maths -->
+        <article class="test-card">
+          <div class="card-top">
+            <h3 class="card-title">SSC General Awareness and Maths</h3>
+            <p class="card-subtitle">Reasoning, GK and arithmetic</p>
+            <div class="card-meta">
+              <span>4 questions</span> · <span>8 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('ssc_ga_maths')">Start test</button>
+        </article>
+
+        <!-- 4. Quantitative Aptitude – Set 1 -->
+        <article class="test-card">
+          <div class="card-top">
+            <h3 class="card-title">Quantitative Aptitude – Set 1</h3>
+            <p class="card-subtitle">Percentage, speed, profit and loss, ratio, average, interest</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('quant_set_1')">Start test</button>
+        </article>
+
+        <!-- 5. Quantitative Aptitude – Set 2 -->
+        <article class="test-card">
+          <div class="card-top">
+            <h3 class="card-title">Quantitative Aptitude – Set 2</h3>
+            <p class="card-subtitle">Time and work, HCF and LCM, algebra, mensuration, ages</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('quant_set_2')">Start test</button>
+        </article>
+
+        <!-- 6. Quantitative Aptitude – Set 3 -->
+        <article class="test-card">
+          <div class="card-top">
+            <h3 class="card-title">Quantitative Aptitude – Set 3</h3>
+            <p class="card-subtitle">Discount, series sums, equations and mixed arithmetic</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('quant_set_3')">Start test</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== CBT EXAM ENGINE VIEW ==================== -->
+  <div id="examView">
+    <div class="exam-header">
+      <div class="exam-info">
+        <h2 id="activeExamTitle">JEE Main Mock 1</h2>
+        <span id="activeExamMeta">Physics, Chemistry and Maths · 4 Questions</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:16px;">
+        <!-- Language Switcher -->
+        <div class="lang-switch-pill">
+          <button id="langEnBtn" class="lang-btn active" onclick="app.setLanguage('en')">EN</button>
+          <button id="langHiBtn" class="lang-btn" onclick="app.setLanguage('hi')">हिन्दी</button>
+        </div>
+
+        <!-- Timer -->
+        <div id="timerDisplay" class="timer-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span id="timerText">10:00</span>
+        </div>
+
+        <button class="btn-submit-exam" onclick="app.confirmSubmit()">Submit test</button>
+      </div>
+    </div>
+
+    <div class="exam-layout">
+      <!-- Question Section -->
+      <div class="question-panel">
+        <div>
+          <div class="q-header">
+            <span class="q-number" id="qNumberLabel">Question 1 of 4</span>
+            <span class="q-marks-pill" id="qMarksLabel">+4.0 / -1.0 Marks</span>
+          </div>
+
+          <div class="q-text" id="qTextContent">
+            Loading question...
+          </div>
+
+          <div class="options-list" id="optionsContainer">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Navigation Toolbar -->
+        <div class="exam-toolbar">
+          <div class="toolbar-left">
+            <button id="btnPrev" class="btn-secondary" onclick="app.prevQuestion()">← Previous</button>
+            <button class="btn-secondary" onclick="app.clearCurrentOption()">Clear response</button>
+            <button class="btn-warning-outline" onclick="app.markForReviewAndNext()">Mark for Review & Next</button>
+          </div>
+          <div class="toolbar-right">
+            <button id="btnNext" class="btn-primary" onclick="app.saveAndNext()">Save & Next →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Palette Sidebar -->
+      <aside class="exam-sidebar">
+        <div>
+          <div class="candidate-box">
+            <div class="candidate-avatar">👤</div>
+            <div>
+              <div class="candidate-name" id="paletteCandidateName">PRINCE</div>
+              <div class="candidate-id">ID: US-2026-9812</div>
+            </div>
+          </div>
+
+          <div class="palette-legend">
+            <div class="legend-item">
+              <span class="legend-indicator" style="background:var(--cbt-answered);"></span>
+              <span>Answered</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-indicator" style="background:var(--cbt-not-answered);"></span>
+              <span>Not Answered</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-indicator" style="background:var(--cbt-review);"></span>
+              <span>Review</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-indicator" style="background:var(--cbt-not-visited);"></span>
+              <span>Not Visited</span>
+            </div>
+          </div>
+
+          <div class="palette-grid" id="paletteGrid">
+            <!-- Palette numbers rendered by app.js -->
+          </div>
+        </div>
+
+        <button class="btn-submit-exam" style="width:100%; margin-top:20px; padding:12px;" onclick="app.confirmSubmit()">
+          Submit Final Test
+        </button>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ==================== RESULTS VIEW ==================== -->
+  <main id="resultsView" class="main-wrapper">
+    <div class="result-card-hero">
+      <span class="result-hero-badge">✓ Test Successfully Completed</span>
+      <h2 class="result-hero-title" id="resExamTitle">JEE Main Mock 1 Scorecard</h2>
+      <p style="color:var(--text-muted); font-size:15px;">Detailed breakdown of your performance, accuracy, and answers.</p>
+
+      <div class="result-stats-row">
+        <div class="stat-metric-box">
+          <div class="stat-value" id="resScore">12 / 16</div>
+          <div class="stat-label">Total Score</div>
+        </div>
+        <div class="stat-metric-box">
+          <div class="stat-value" id="resAccuracy">75%</div>
+          <div class="stat-label">Accuracy Rate</div>
+        </div>
+        <div class="stat-metric-box">
+          <div class="stat-value" id="resAttempted">3 / 4</div>
+          <div class="stat-label">Questions Attempted</div>
+        </div>
+        <div class="stat-metric-box">
+          <div class="stat-value" id="resTimeSpent">03:42</div>
+          <div class="stat-label">Time Taken</div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:14px; margin-top:28px;">
+        <button class="btn-start-test" onclick="app.showHomeView()">← Back to Available Tests</button>
+        <button class="btn-secondary" onclick="app.retakeCurrentExam()">↻ Retake Test</button>
+      </div>
+    </div>
+
+    <!-- Solutions & Explanations -->
+    <section class="solutions-section">
+      <h3 style="font-size:20px; font-weight:700; margin-bottom:16px;">Question Solutions & Step-by-Step Explanations</h3>
+
+      <div class="solution-filter-bar">
+        <button class="filter-btn active" onclick="app.filterSolutions('all', this)">All Questions</button>
+        <button class="filter-btn" onclick="app.filterSolutions('correct', this)">Correct</button>
+        <button class="filter-btn" onclick="app.filterSolutions('incorrect', this)">Incorrect</button>
+        <button class="filter-btn" onclick="app.filterSolutions('skipped', this)">Unattempted</button>
+      </div>
+
+      <div id="solutionsList">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== MODALS ==================== -->
+  <!-- Candidate Profile / Logout Modal -->
+  <dialog id="profileModal" class="custom-modal">
+    <h3 class="modal-title">Candidate Profile</h3>
+    <p class="modal-desc">Change candidate display name or logout.</p>
+    
+    <div class="form-group">
+      <label class="form-label" for="inputCandidateName">Candidate Name</label>
+      <input type="text" id="inputCandidateName" class="form-input" value="PRINCE" placeholder="Enter your name">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="app.closeProfileModal()">Cancel</button>
+      <button class="btn-logout" onclick="app.doLogout()">Reset / Log out</button>
+      <button class="btn-primary" onclick="app.saveProfileName()">Save Name</button>
+    </div>
+  </dialog>
+
+  <!-- Submit Confirmation Modal -->
+  <dialog id="confirmModal" class="custom-modal">
+    <h3 class="modal-title">Submit Test?</h3>
+    <p class="modal-desc" id="confirmSummaryText">Are you sure you want to submit? Once submitted, you cannot change your answers.</p>
+    
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="app.closeConfirmModal()">Keep Testing</button>
+      <button class="btn-primary" onclick="app.submitExam()">Yes, Submit Now</button>
+    </div>
+  </dialog>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
