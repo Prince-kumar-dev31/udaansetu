@@ -991,6 +991,121 @@ dialog.custom-modal::backdrop {
   padding: 4px;
 }
 
+/* Category & Sheet Navigation */
+.category-tabs-nav {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+}
+
+.category-tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-pill {
+  background: var(--bg-white);
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 24px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cat-pill:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.cat-pill.active {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+/* Year Filter Bar */
+.year-filter-wrapper {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.filter-header-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.year-pills-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.year-pill {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.year-pill:hover {
+  background: #e2e8f0;
+}
+
+.year-pill.active {
+  background: var(--teal-btn);
+  border-color: var(--teal-btn);
+  color: #ffffff;
+}
+
+.ssc-sheet-banner {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #166534;
+}
+
+.test-year-badge {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #e2e8f0;
+}
+
 /* Utilities */
 .hide {
   display: none !important;

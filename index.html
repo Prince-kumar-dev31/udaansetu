@@ -32,9 +32,46 @@
       <p class="user-subtitle" id="greetingSubtitle">Pick a test series and start when you are ready. The timer begins as soon as the test opens.</p>
     </section>
 
+    <!-- Category Tabs Navigation / Sheet Selector -->
+    <div class="category-tabs-nav">
+      <button class="cat-pill active" id="catAll" onclick="app.setCategory('all', this)">
+        <span>📚 All Tests (26)</span>
+      </button>
+      <button class="cat-pill" id="catSsc" onclick="app.setCategory('ssc_cgl', this)">
+        <span>🎯 SSC CGL 5-Yr PYQs (20)</span>
+      </button>
+      <button class="cat-pill" id="catJeeNeet" onclick="app.setCategory('jee_neet', this)">
+        <span>🔬 JEE & NEET (2)</span>
+      </button>
+      <button class="cat-pill" id="catQuant" onclick="app.setCategory('quant', this)">
+        <span>⚡ Quantitative Aptitude (3)</span>
+      </button>
+    </div>
+
+    <!-- Year Filter Bar (For SSC CGL 5-Year Sheet) -->
+    <div id="sscYearFilterBar" class="year-filter-wrapper hide">
+      <div class="filter-header-row">
+        <span class="filter-label">Filter by Exam Year:</span>
+        <div class="year-pills-list">
+          <button class="year-pill active" onclick="app.setSscYear('all', this)">All 5 Years (20 Tests)</button>
+          <button class="year-pill" onclick="app.setSscYear('2024', this)">2024 (4 Tests)</button>
+          <button class="year-pill" onclick="app.setSscYear('2023', this)">2023 (4 Tests)</button>
+          <button class="year-pill" onclick="app.setSscYear('2022', this)">2022 (4 Tests)</button>
+          <button class="year-pill" onclick="app.setSscYear('2021', this)">2021 (4 Tests)</button>
+          <button class="year-pill" onclick="app.setSscYear('2020', this)">2020 (4 Tests)</button>
+        </div>
+      </div>
+      <div class="ssc-sheet-banner">
+        <b>📌 SSC CGL Tier-1 Pattern:</b> 100 Questions · 60 Minutes · +2.0 Marks for Correct, -0.50 Negative Marking · 4 Sections (Reasoning, General Awareness, Quant, English).
+      </div>
+    </div>
+
     <!-- Available Tests Section -->
     <section>
-      <h2 class="section-title">Available tests</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2 class="section-title" id="testsSectionHeading" style="margin-bottom:0;">Available tests</h2>
+        <span id="testsCountBadge" style="font-size:13px; font-weight:600; color:var(--text-muted);">Showing 26 tests</span>
+      </div>
       <div class="tests-grid" id="testsGrid">
         <!-- 1. JEE Main Mock 1 -->
         <article class="test-card">

@@ -17,6 +17,8 @@ const app = {
   timerInterval: null,
   examStartTime: null,
   solutionFilter: "all",
+  selectedCategory: "all",
+  selectedSscYear: "all",
   lastResultData: null,
 
   // Helper
@@ -291,17 +293,75 @@ const app = {
     app.closeLogoutModal();
   },
 
+  // ==================== CATEGORY & YEAR FILTERING ====================
+  setCategory(cat, btnEl) {
+    app.selectedCategory = cat;
+    document.querySelectorAll(".cat-pill").forEach(p => p.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+
+    const yearBar = app.$("sscYearFilterBar");
+    const heading = app.$("testsSectionHeading");
+
+    if (cat === "ssc_cgl") {
+      if (yearBar) yearBar.classList.remove("hide");
+      if (heading) heading.textContent = "SSC CGL 5-Year Previous Exam Series (2020-2024)";
+    } else {
+      if (yearBar) yearBar.classList.add("hide");
+      if (heading) {
+        if (cat === "jee_neet") heading.textContent = "JEE & NEET Test Series";
+        else if (cat === "quant") heading.textContent = "Quantitative Aptitude Drills";
+        else heading.textContent = "Available tests";
+      }
+    }
+
+    app.renderTestsGrid();
+  },
+
+  setSscYear(year, btnEl) {
+    app.selectedSscYear = year;
+    document.querySelectorAll(".year-pill").forEach(p => p.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+
+    app.renderTestsGrid();
+  },
+
   // ==================== TESTS GRID RENDERING ====================
   renderTestsGrid() {
     const grid = app.$("testsGrid");
+    const badge = app.$("testsCountBadge");
     if (!grid) return;
     grid.innerHTML = "";
 
-    APP_DATA.exams.forEach(exam => {
+    let filteredExams = APP_DATA.exams;
+
+    // Filter by Category
+    if (app.selectedCategory !== "all") {
+      filteredExams = filteredExams.filter(e => e.category === app.selectedCategory);
+    }
+
+    // Filter by SSC Year
+    if (app.selectedCategory === "ssc_cgl" && app.selectedSscYear !== "all") {
+      filteredExams = filteredExams.filter(e => e.year === app.selectedSscYear);
+    }
+
+    if (badge) {
+      badge.textContent = `Showing ${filteredExams.length} tests`;
+    }
+
+    if (filteredExams.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted); background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">No test series found for the selected filter.</div>`;
+      return;
+    }
+
+    filteredExams.forEach(exam => {
       const card = document.createElement("article");
       card.className = "test-card";
+
+      const yearBadge = exam.year ? `<span class="test-year-badge">${exam.year} PYQ</span>` : "";
+
       card.innerHTML = `
         <div class="card-top">
+          ${yearBadge}
           <h3 class="card-title">${exam.title}</h3>
           <p class="card-subtitle">${exam.subtitle}</p>
           <div class="card-meta">
