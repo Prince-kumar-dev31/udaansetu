@@ -4,7 +4,7 @@
 
 const app = {
   // Application State
-  candidateName: localStorage.getItem("udaan_candidate") || "PRINCE",
+  currentUser: null,
   lang: localStorage.getItem("udaan_lang") || "en",
   activeExam: null,
   questions: [],
@@ -23,8 +23,8 @@ const app = {
   $: (id) => document.getElementById(id),
 
   init() {
-    // 1. Display Candidate Name
-    app.updateCandidateDisplay();
+    // 1. Seed & Load Users & Session
+    app.initAuth();
 
     // 2. Render Available Tests Grid
     app.renderTestsGrid();
@@ -33,47 +33,262 @@ const app = {
     app.updateLangButtonUI();
   },
 
-  // ==================== CANDIDATE DISPLAY & PROFILE ====================
-  updateCandidateDisplay() {
-    const el1 = app.$("candidateName");
-    const el2 = app.$("paletteCandidateName");
-    const inp = app.$("inputCandidateName");
+  // ==================== AUTHENTICATION & SESSION ====================
+  initAuth() {
+    // Ensure default demo user exists
+    let users = [];
+    try {
+      users = JSON.parse(localStorage.getItem("udaan_users")) || [];
+    } catch(e) {
+      users = [];
+    }
 
-    if (el1) el1.textContent = app.candidateName;
-    if (el2) el2.textContent = app.candidateName;
-    if (inp) inp.value = app.candidateName;
+    if (!Array.isArray(users) || users.length === 0) {
+      users = [
+        {
+          id: "u_prince",
+          name: "PRINCE",
+          mobile: "9876543210",
+          email: "princeamit247@gmail.com",
+          password: "123456"
+        }
+      ];
+      localStorage.setItem("udaan_users", JSON.stringify(users));
+    }
+
+    // Load active session (default to PRINCE on first load)
+    const storedSession = localStorage.getItem("udaan_session");
+    if (storedSession) {
+      try {
+        app.currentUser = JSON.parse(storedSession);
+      } catch(e) {
+        app.currentUser = null;
+      }
+    } else {
+      // Default initial session for seamless experience matching screenshot
+      app.currentUser = users[0];
+      localStorage.setItem("udaan_session", JSON.stringify(users[0]));
+    }
+
+    app.updateUserUI();
   },
 
-  openProfileModal() {
-    const modal = app.$("profileModal");
-    if (modal) {
-      app.$("inputCandidateName").value = app.candidateName;
-      modal.showModal();
+  updateUserUI() {
+    const chip = app.$("userProfileChip");
+    const chipName = app.$("chipUserName");
+    const chipAvatar = app.$("chipAvatar");
+    const btnLogout = app.$("btnLogout");
+    const btnLogin = app.$("btnLogin");
+    const greetingTitle = app.$("greetingTitle");
+    const greetingSubtitle = app.$("greetingSubtitle");
+    const paletteCandidateName = app.$("paletteCandidateName");
+
+    if (app.currentUser) {
+      const uName = (app.currentUser.name || "PRINCE").toUpperCase();
+      if (chip) chip.classList.remove("hide");
+      if (chipName) chipName.textContent = uName;
+      if (chipAvatar) chipAvatar.textContent = uName.charAt(0);
+      if (btnLogout) btnLogout.classList.remove("hide");
+      if (btnLogin) btnLogin.classList.add("hide");
+
+      if (greetingTitle) greetingTitle.innerHTML = `Hello, <span id="candidateName">${uName}</span>`;
+      if (greetingSubtitle) greetingSubtitle.textContent = "Pick a test series and start when you are ready. The timer begins as soon as the test opens.";
+      if (paletteCandidateName) paletteCandidateName.textContent = uName;
+    } else {
+      if (chip) chip.classList.add("hide");
+      if (btnLogout) btnLogout.classList.add("hide");
+      if (btnLogin) btnLogin.classList.remove("hide");
+
+      if (greetingTitle) greetingTitle.innerHTML = `Welcome to Udaansetu`;
+      if (greetingSubtitle) greetingSubtitle.textContent = "Sign in with your mobile number or email to save tests, or start practicing any test below directly.";
+      if (paletteCandidateName) paletteCandidateName.textContent = "Guest Student";
     }
   },
 
-  closeProfileModal() {
-    const modal = app.$("profileModal");
+  openAuthModal(tab = 'login') {
+    const modal = app.$("authModal");
+    app.switchAuthTab(tab);
+    app.clearAuthErrors();
+    if (modal) modal.showModal();
+  },
+
+  closeAuthModal() {
+    const modal = app.$("authModal");
     if (modal) modal.close();
   },
 
-  saveProfileName() {
-    const inp = app.$("inputCandidateName");
-    const newName = inp.value.trim();
-    if (newName) {
-      app.candidateName = newName;
-      localStorage.setItem("udaan_candidate", newName);
-      app.updateCandidateDisplay();
+  switchAuthTab(tab) {
+    const loginForm = app.$("loginForm");
+    const signupForm = app.$("signupForm");
+    const tabLoginBtn = app.$("tabLoginBtn");
+    const tabSignupBtn = app.$("tabSignupBtn");
+    const heading = app.$("authModalHeading");
+
+    app.clearAuthErrors();
+
+    if (tab === 'signup') {
+      loginForm.classList.add("hide");
+      signupForm.classList.remove("hide");
+      tabLoginBtn.classList.remove("active");
+      tabSignupBtn.classList.add("active");
+      heading.textContent = "Create Udaansetu Account";
+    } else {
+      signupForm.classList.add("hide");
+      loginForm.classList.remove("hide");
+      tabSignupBtn.classList.remove("active");
+      tabLoginBtn.classList.add("active");
+      heading.textContent = "Log in to Udaansetu";
     }
-    app.closeProfileModal();
+  },
+
+  clearAuthErrors() {
+    const errL = app.$("loginError");
+    const errS = app.$("signupError");
+    const succL = app.$("loginSuccess");
+    if (errL) { errL.classList.add("hide"); errL.textContent = ""; }
+    if (errS) { errS.classList.add("hide"); errS.textContent = ""; }
+    if (succL) { succL.classList.add("hide"); succL.textContent = ""; }
+  },
+
+  fillDemoCredentials() {
+    app.$("loginIdentifier").value = "9876543210";
+    app.$("loginPassword").value = "123456";
+  },
+
+  togglePasswordVisibility(inputId, btn) {
+    const input = app.$(inputId);
+    if (!input) return;
+    if (input.type === "password") {
+      input.type = "text";
+      btn.textContent = "🙈";
+    } else {
+      input.type = "password";
+      btn.textContent = "👁️";
+    }
+  },
+
+  handleLogin(e) {
+    e.preventDefault();
+    app.clearAuthErrors();
+
+    const identifier = (app.$("loginIdentifier").value || "").trim();
+    const password = (app.$("loginPassword").value || "").trim();
+    const errBox = app.$("loginError");
+
+    if (!identifier || !password) {
+      errBox.textContent = "Please enter both mobile number/email and password.";
+      errBox.classList.remove("hide");
+      return;
+    }
+
+    let users = [];
+    try {
+      users = JSON.parse(localStorage.getItem("udaan_users")) || [];
+    } catch(err) {
+      users = [];
+    }
+
+    const normalizedId = identifier.toLowerCase();
+    const foundUser = users.find(u => {
+      const matchMobile = u.mobile && u.mobile === identifier;
+      const matchEmail = u.email && u.email.toLowerCase() === normalizedId;
+      const matchGeneral = u.identifier && u.identifier.toLowerCase() === normalizedId;
+      return (matchMobile || matchEmail || matchGeneral) && u.password === password;
+    });
+
+    if (foundUser) {
+      app.currentUser = foundUser;
+      localStorage.setItem("udaan_session", JSON.stringify(foundUser));
+      app.updateUserUI();
+      app.closeAuthModal();
+    } else {
+      errBox.textContent = "Invalid mobile number/email or password. Try 9876543210 / 123456 or sign up.";
+      errBox.classList.remove("hide");
+    }
+  },
+
+  handleSignup(e) {
+    e.preventDefault();
+    app.clearAuthErrors();
+
+    const name = (app.$("signupName").value || "").trim();
+    const identifier = (app.$("signupIdentifier").value || "").trim();
+    const password = (app.$("signupPassword").value || "").trim();
+    const confirmPassword = (app.$("signupConfirmPassword").value || "").trim();
+    const errBox = app.$("signupError");
+
+    if (!name || !identifier || !password) {
+      errBox.textContent = "Please fill out all required fields.";
+      errBox.classList.remove("hide");
+      return;
+    }
+
+    if (password.length < 4) {
+      errBox.textContent = "Password must be at least 4 characters long.";
+      errBox.classList.remove("hide");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      errBox.textContent = "Passwords do not match. Please re-enter.";
+      errBox.classList.remove("hide");
+      return;
+    }
+
+    let users = [];
+    try {
+      users = JSON.parse(localStorage.getItem("udaan_users")) || [];
+    } catch(err) {
+      users = [];
+    }
+
+    const normalizedId = identifier.toLowerCase();
+    const exists = users.some(u => 
+      (u.mobile && u.mobile === identifier) || 
+      (u.email && u.email.toLowerCase() === normalizedId) ||
+      (u.identifier && u.identifier.toLowerCase() === normalizedId)
+    );
+
+    if (exists) {
+      errBox.textContent = "An account with this mobile number or email already exists. Please log in.";
+      errBox.classList.remove("hide");
+      return;
+    }
+
+    const isEmail = identifier.includes("@");
+    const newUser = {
+      id: "u_" + Date.now(),
+      name: name,
+      mobile: isEmail ? "" : identifier,
+      email: isEmail ? identifier : "",
+      identifier: identifier,
+      password: password
+    };
+
+    users.push(newUser);
+    localStorage.setItem("udaan_users", JSON.stringify(users));
+
+    app.currentUser = newUser;
+    localStorage.setItem("udaan_session", JSON.stringify(newUser));
+    app.updateUserUI();
+    app.closeAuthModal();
+  },
+
+  confirmLogout() {
+    const modal = app.$("logoutModal");
+    if (modal) modal.showModal();
+  },
+
+  closeLogoutModal() {
+    const modal = app.$("logoutModal");
+    if (modal) modal.close();
   },
 
   doLogout() {
-    localStorage.removeItem("udaan_candidate");
-    app.candidateName = "PRINCE";
-    app.updateCandidateDisplay();
-    app.closeProfileModal();
-    alert("Logged out successfully! Candidate profile reset to PRINCE.");
+    localStorage.removeItem("udaan_session");
+    app.currentUser = null;
+    app.updateUserUI();
+    app.closeLogoutModal();
   },
 
   // ==================== TESTS GRID RENDERING ====================

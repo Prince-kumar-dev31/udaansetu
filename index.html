@@ -14,7 +14,12 @@
     <div class="header-inner">
       <a href="#" class="brand-logo" onclick="app.showHomeView(); return false;">Udaansetu</a>
       <div class="header-actions">
-        <button id="btnLogout" class="btn-logout" onclick="app.openProfileModal()">Log out</button>
+        <div id="userProfileChip" class="user-chip">
+          <div class="user-chip-avatar" id="chipAvatar">P</div>
+          <span id="chipUserName">PRINCE</span>
+        </div>
+        <button id="btnLogout" class="btn-logout" onclick="app.confirmLogout()">Log out</button>
+        <button id="btnLogin" class="btn-logout hide" onclick="app.openAuthModal('login')">Log in / Sign up</button>
       </div>
     </div>
   </header>
@@ -23,8 +28,8 @@
   <main id="homeView" class="main-wrapper">
     <!-- Greeting Section -->
     <section class="greeting-section">
-      <h1 class="user-title">Hello, <span id="candidateName">PRINCE</span></h1>
-      <p class="user-subtitle">Pick a test series and start when you are ready. The timer begins as soon as the test opens.</p>
+      <h1 class="user-title" id="greetingTitle">Hello, <span id="candidateName">PRINCE</span></h1>
+      <p class="user-subtitle" id="greetingSubtitle">Pick a test series and start when you are ready. The timer begins as soon as the test opens.</p>
     </section>
 
     <!-- Available Tests Section -->
@@ -257,20 +262,96 @@
   </main>
 
   <!-- ==================== MODALS ==================== -->
-  <!-- Candidate Profile / Logout Modal -->
-  <dialog id="profileModal" class="custom-modal">
-    <h3 class="modal-title">Candidate Profile</h3>
-    <p class="modal-desc">Change candidate display name or logout.</p>
-    
-    <div class="form-group">
-      <label class="form-label" for="inputCandidateName">Candidate Name</label>
-      <input type="text" id="inputCandidateName" class="form-input" value="PRINCE" placeholder="Enter your name">
+  <!-- Login / Signup Authentication Modal -->
+  <dialog id="authModal" class="custom-modal" style="max-width: 440px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3 class="modal-title" id="authModalHeading" style="margin-bottom:0;">Udaansetu Account</h3>
+      <button class="btn-link" style="color:#64748b; font-size:18px; text-decoration:none;" onclick="app.closeAuthModal()">✕</button>
     </div>
 
+    <!-- Tabs: Log in / Sign up -->
+    <div class="auth-tabs">
+      <button id="tabLoginBtn" class="auth-tab active" onclick="app.switchAuthTab('login')">Log in</button>
+      <button id="tabSignupBtn" class="auth-tab" onclick="app.switchAuthTab('signup')">Sign up</button>
+    </div>
+
+    <!-- Log in Form -->
+    <form id="loginForm" onsubmit="app.handleLogin(event)">
+      <div id="loginError" class="auth-error hide"></div>
+      <div id="loginSuccess" class="auth-success hide"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginIdentifier">Mobile Number or Email</label>
+        <input type="text" id="loginIdentifier" class="form-input" placeholder="e.g. 9876543210 or prince@gmail.com" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginPassword">Password</label>
+        <div class="password-input-wrapper">
+          <input type="password" id="loginPassword" class="form-input" placeholder="Enter password" required autocomplete="current-password">
+          <button type="button" class="password-toggle-btn" onclick="app.togglePasswordVisibility('loginPassword', this)">👁️</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" style="width:100%; padding:11px; margin-top:8px;">Log in to Udaansetu</button>
+
+      <!-- Quick Demo Account Box -->
+      <div class="quick-demo-box">
+        <div>
+          <b>Demo Account:</b><br>
+          <span style="font-size:12px;">Mobile: 9876543210 | Pass: 123456</span>
+        </div>
+        <button type="button" class="btn-link" onclick="app.fillDemoCredentials()">Auto-fill</button>
+      </div>
+
+      <p class="auth-switch-text">
+        Don't have an account? <button type="button" class="btn-link" onclick="app.switchAuthTab('signup')">Sign up here</button>
+      </p>
+    </form>
+
+    <!-- Sign up Form -->
+    <form id="signupForm" class="hide" onsubmit="app.handleSignup(event)">
+      <div id="signupError" class="auth-error hide"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="signupName">Full Name</label>
+        <input type="text" id="signupName" class="form-input" placeholder="e.g. Prince Kumar" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signupIdentifier">Mobile Number or Email</label>
+        <input type="text" id="signupIdentifier" class="form-input" placeholder="e.g. 9876543210 or prince@gmail.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signupPassword">Password</label>
+        <div class="password-input-wrapper">
+          <input type="password" id="signupPassword" class="form-input" placeholder="Minimum 4 characters" minlength="4" required autocomplete="new-password">
+          <button type="button" class="password-toggle-btn" onclick="app.togglePasswordVisibility('signupPassword', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="signupConfirmPassword">Confirm Password</label>
+        <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Re-enter password" minlength="4" required autocomplete="new-password">
+      </div>
+
+      <button type="submit" class="btn-primary" style="width:100%; padding:11px; margin-top:8px;">Create Account & Log in</button>
+
+      <p class="auth-switch-text">
+        Already have an account? <button type="button" class="btn-link" onclick="app.switchAuthTab('login')">Log in here</button>
+      </p>
+    </form>
+  </dialog>
+
+  <!-- Logout Confirmation Modal -->
+  <dialog id="logoutModal" class="custom-modal">
+    <h3 class="modal-title">Log out from Udaansetu?</h3>
+    <p class="modal-desc">You can log back in anytime using your mobile number or email and password.</p>
+    
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="app.closeProfileModal()">Cancel</button>
-      <button class="btn-logout" onclick="app.doLogout()">Reset / Log out</button>
-      <button class="btn-primary" onclick="app.saveProfileName()">Save Name</button>
+      <button class="btn-secondary" onclick="app.closeLogoutModal()">Cancel</button>
+      <button class="btn-logout" style="background:#fee2e2; border-color:#fca5a5; color:#991b1b;" onclick="app.doLogout()">Yes, Log out</button>
     </div>
   </dialog>
 
