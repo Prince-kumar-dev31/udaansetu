@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Udaansetu - Online Mock Test Portal</title>
-  <meta name="description" content="Udaansetu is a modern, high-performance mock test platform for JEE Main, NEET, SSC, and Quantitative Aptitude.">
-  <link rel="stylesheet" href="css/style.css">
+  <title>Udaansetu - Online Mock Test Portal & SSC CGL 5-Year Sheet</title>
+  <meta name="description" content="Udaansetu is a modern, high-performance mock test platform for SSC CGL 5-Year Previous Exam Series (2020-2024), JEE Main, NEET, and Quantitative Aptitude.">
+  <link rel="stylesheet" href="css/style.css?v=3.6">
 </head>
 <body>
 
@@ -32,24 +32,21 @@
       <p class="user-subtitle" id="greetingSubtitle">Pick a test series and start when you are ready. The timer begins as soon as the test opens.</p>
     </section>
 
-    <!-- Category Tabs Navigation / Sheet Selector -->
+    <!-- Main Sheet Navigation Tabs -->
     <div class="category-tabs-nav">
-      <button class="cat-pill active" id="catAll" onclick="app.setCategory('all', this)">
+      <button class="cat-pill active" id="catSsc" onclick="app.setCategory('ssc_cgl', this)">
+        <span>🎯 SSC CGL 5-Yr Sheet (20 Tests)</span>
+      </button>
+      <button class="cat-pill" id="catGeneral" onclick="app.setCategory('general', this)">
+        <span>⚡ Quick General Mocks (6)</span>
+      </button>
+      <button class="cat-pill" id="catAll" onclick="app.setCategory('all', this)">
         <span>📚 All Tests (26)</span>
-      </button>
-      <button class="cat-pill" id="catSsc" onclick="app.setCategory('ssc_cgl', this)">
-        <span>🎯 SSC CGL 5-Yr PYQs (20)</span>
-      </button>
-      <button class="cat-pill" id="catJeeNeet" onclick="app.setCategory('jee_neet', this)">
-        <span>🔬 JEE & NEET (2)</span>
-      </button>
-      <button class="cat-pill" id="catQuant" onclick="app.setCategory('quant', this)">
-        <span>⚡ Quantitative Aptitude (3)</span>
       </button>
     </div>
 
     <!-- Year Filter Bar (For SSC CGL 5-Year Sheet) -->
-    <div id="sscYearFilterBar" class="year-filter-wrapper hide">
+    <div id="sscYearFilterBar" class="year-filter-wrapper">
       <div class="filter-header-row">
         <span class="filter-label">Filter by Exam Year:</span>
         <div class="year-pills-list">
@@ -62,87 +59,236 @@
         </div>
       </div>
       <div class="ssc-sheet-banner">
-        <b>📌 SSC CGL Tier-1 Pattern:</b> 100 Questions · 60 Minutes · +2.0 Marks for Correct, -0.50 Negative Marking · 4 Sections (Reasoning, General Awareness, Quant, English).
+        <b>📌 SSC CGL Tier-1 Examination Papers (2020 - 2024):</b> 100 Questions · 60 Minutes · +2.0 Marks for Correct, -0.50 Negative Marking · 4 Sections (Reasoning, General Awareness, Quant, English).
       </div>
     </div>
 
     <!-- Available Tests Section -->
     <section>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h2 class="section-title" id="testsSectionHeading" style="margin-bottom:0;">Available tests</h2>
-        <span id="testsCountBadge" style="font-size:13px; font-weight:600; color:var(--text-muted);">Showing 26 tests</span>
+        <h2 class="section-title" id="testsSectionHeading" style="margin-bottom:0;">SSC CGL 5-Year Previous Exam Series (2020-2024)</h2>
+        <span id="testsCountBadge" style="font-size:13px; font-weight:600; color:var(--text-muted);">Showing 20 tests</span>
       </div>
       <div class="tests-grid" id="testsGrid">
-        <!-- 1. JEE Main Mock 1 -->
-        <article class="test-card">
+        <article class="test-card" data-category="ssc_cgl" data-year="2024">
           <div class="card-top">
-            <h3 class="card-title">JEE Main Mock 1</h3>
-            <p class="card-subtitle">Physics, Chemistry and Maths</p>
-            <div class="card-meta">
-              <span>4 questions</span> · <span>10 minutes</span>
-            </div>
-          </div>
-          <button class="btn-start-test" onclick="app.startExam('jee_main_1')">Start test</button>
-        </article>
-
-        <!-- 2. NEET Biology Quick Test -->
-        <article class="test-card">
-          <div class="card-top">
-            <h3 class="card-title">NEET Biology Quick Test</h3>
-            <p class="card-subtitle">Cell biology and genetics</p>
-            <div class="card-meta">
-              <span>4 questions</span> · <span>8 minutes</span>
-            </div>
-          </div>
-          <button class="btn-start-test" onclick="app.startExam('neet_bio_quick')">Start test</button>
-        </article>
-
-        <!-- 3. SSC General Awareness and Maths -->
-        <article class="test-card">
-          <div class="card-top">
-            <h3 class="card-title">SSC General Awareness and Maths</h3>
-            <p class="card-subtitle">Reasoning, GK and arithmetic</p>
-            <div class="card-meta">
-              <span>4 questions</span> · <span>8 minutes</span>
-            </div>
-          </div>
-          <button class="btn-start-test" onclick="app.startExam('ssc_ga_maths')">Start test</button>
-        </article>
-
-        <!-- 4. Quantitative Aptitude – Set 1 -->
-        <article class="test-card">
-          <div class="card-top">
-            <h3 class="card-title">Quantitative Aptitude – Set 1</h3>
-            <p class="card-subtitle">Percentage, speed, profit and loss, ratio, average, interest</p>
+            <span class="test-year-badge">2024 PYQ</span>
+            <h3 class="card-title">SSC CGL 2024 Tier-1 Official Paper (Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
             <div class="card-meta">
               <span>100 questions</span> · <span>60 minutes</span>
             </div>
           </div>
-          <button class="btn-start-test" onclick="app.startExam('quant_set_1')">Start test</button>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2024_s1')">Start test</button>
         </article>
-
-        <!-- 5. Quantitative Aptitude – Set 2 -->
-        <article class="test-card">
+        <article class="test-card" data-category="ssc_cgl" data-year="2024">
           <div class="card-top">
-            <h3 class="card-title">Quantitative Aptitude – Set 2</h3>
-            <p class="card-subtitle">Time and work, HCF and LCM, algebra, mensuration, ages</p>
+            <span class="test-year-badge">2024 PYQ</span>
+            <h3 class="card-title">SSC CGL 2024 Tier-1 Official Paper (Shift 2)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
             <div class="card-meta">
               <span>100 questions</span> · <span>60 minutes</span>
             </div>
           </div>
-          <button class="btn-start-test" onclick="app.startExam('quant_set_2')">Start test</button>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2024_s2')">Start test</button>
         </article>
-
-        <!-- 6. Quantitative Aptitude – Set 3 -->
-        <article class="test-card">
+        <article class="test-card" data-category="ssc_cgl" data-year="2024">
           <div class="card-top">
-            <h3 class="card-title">Quantitative Aptitude – Set 3</h3>
-            <p class="card-subtitle">Discount, series sums, equations and mixed arithmetic</p>
+            <span class="test-year-badge">2024 PYQ</span>
+            <h3 class="card-title">SSC CGL 2024 Tier-1 Official Paper (Shift 3)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
             <div class="card-meta">
               <span>100 questions</span> · <span>60 minutes</span>
             </div>
           </div>
-          <button class="btn-start-test" onclick="app.startExam('quant_set_3')">Start test</button>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2024_s3')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2024">
+          <div class="card-top">
+            <span class="test-year-badge">2024 PYQ</span>
+            <h3 class="card-title">SSC CGL 2024 Tier-1 Full Memory-Based Mock</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2024_mock')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2023">
+          <div class="card-top">
+            <span class="test-year-badge">2023 PYQ</span>
+            <h3 class="card-title">SSC CGL 2023 Tier-1 Official Paper (14 July Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2023_s1')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2023">
+          <div class="card-top">
+            <span class="test-year-badge">2023 PYQ</span>
+            <h3 class="card-title">SSC CGL 2023 Tier-1 Official Paper (14 July Shift 2)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2023_s2')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2023">
+          <div class="card-top">
+            <span class="test-year-badge">2023 PYQ</span>
+            <h3 class="card-title">SSC CGL 2023 Tier-1 Official Paper (17 July Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2023_s3')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2023">
+          <div class="card-top">
+            <span class="test-year-badge">2023 PYQ</span>
+            <h3 class="card-title">SSC CGL 2023 Tier-1 All-India Mock Test</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2023_mock')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2022">
+          <div class="card-top">
+            <span class="test-year-badge">2022 PYQ</span>
+            <h3 class="card-title">SSC CGL 2022 Tier-1 Official Paper (1 Dec Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2022_s1')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2022">
+          <div class="card-top">
+            <span class="test-year-badge">2022 PYQ</span>
+            <h3 class="card-title">SSC CGL 2022 Tier-1 Official Paper (1 Dec Shift 2)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2022_s2')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2022">
+          <div class="card-top">
+            <span class="test-year-badge">2022 PYQ</span>
+            <h3 class="card-title">SSC CGL 2022 Tier-1 Official Paper (2 Dec Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2022_s3')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2022">
+          <div class="card-top">
+            <span class="test-year-badge">2022 PYQ</span>
+            <h3 class="card-title">SSC CGL 2022 Tier-1 Speed Booster Test</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2022_mock')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2021">
+          <div class="card-top">
+            <span class="test-year-badge">2021 PYQ</span>
+            <h3 class="card-title">SSC CGL 2021 Tier-1 Official Paper (11 April Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2021_s1')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2021">
+          <div class="card-top">
+            <span class="test-year-badge">2021 PYQ</span>
+            <h3 class="card-title">SSC CGL 2021 Tier-1 Official Paper (11 April Shift 2)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2021_s2')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2021">
+          <div class="card-top">
+            <span class="test-year-badge">2021 PYQ</span>
+            <h3 class="card-title">SSC CGL 2021 Tier-1 Official Paper (12 April Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2021_s3')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2021">
+          <div class="card-top">
+            <span class="test-year-badge">2021 PYQ</span>
+            <h3 class="card-title">SSC CGL 2021 Tier-1 Previous Year Drill</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2021_mock')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2020">
+          <div class="card-top">
+            <span class="test-year-badge">2020 PYQ</span>
+            <h3 class="card-title">SSC CGL 2020 Tier-1 Official Paper (13 Aug Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2020_s1')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2020">
+          <div class="card-top">
+            <span class="test-year-badge">2020 PYQ</span>
+            <h3 class="card-title">SSC CGL 2020 Tier-1 Official Paper (13 Aug Shift 2)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2020_s2')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2020">
+          <div class="card-top">
+            <span class="test-year-badge">2020 PYQ</span>
+            <h3 class="card-title">SSC CGL 2020 Tier-1 Official Paper (16 Aug Shift 1)</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2020_s3')">Start test</button>
+        </article>
+        <article class="test-card" data-category="ssc_cgl" data-year="2020">
+          <div class="card-top">
+            <span class="test-year-badge">2020 PYQ</span>
+            <h3 class="card-title">SSC CGL 5-Year PYQ High-Yield Master Drill</h3>
+            <p class="card-subtitle">Reasoning, GA, Quantitative Aptitude & English</p>
+            <div class="card-meta">
+              <span>100 questions</span> · <span>60 minutes</span>
+            </div>
+          </div>
+          <button class="btn-start-test" onclick="app.startExam('cgl_2020_master')">Start test</button>
         </article>
       </div>
     </section>
@@ -152,8 +298,8 @@
   <div id="examView">
     <div class="exam-header">
       <div class="exam-info">
-        <h2 id="activeExamTitle">JEE Main Mock 1</h2>
-        <span id="activeExamMeta">Physics, Chemistry and Maths · 4 Questions</span>
+        <h2 id="activeExamTitle">SSC CGL 2024 Tier-1 Official Paper (Shift 1)</h2>
+        <span id="activeExamMeta">Reasoning, GA, Quantitative Aptitude & English · 100 Questions</span>
       </div>
 
       <div style="display:flex; align-items:center; gap:16px;">
@@ -169,7 +315,7 @@
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
-          <span id="timerText">10:00</span>
+          <span id="timerText">60:00</span>
         </div>
 
         <button class="btn-submit-exam" onclick="app.confirmSubmit()">Submit test</button>
@@ -181,8 +327,8 @@
       <div class="question-panel">
         <div>
           <div class="q-header">
-            <span class="q-number" id="qNumberLabel">Question 1 of 4</span>
-            <span class="q-marks-pill" id="qMarksLabel">+4.0 / -1.0 Marks</span>
+            <span class="q-number" id="qNumberLabel">Question 1 of 8</span>
+            <span class="q-marks-pill" id="qMarksLabel">+2.0 / -0.5 Marks</span>
           </div>
 
           <div class="q-text" id="qTextContent">
@@ -253,24 +399,24 @@
   <main id="resultsView" class="main-wrapper">
     <div class="result-card-hero">
       <span class="result-hero-badge">✓ Test Successfully Completed</span>
-      <h2 class="result-hero-title" id="resExamTitle">JEE Main Mock 1 Scorecard</h2>
+      <h2 class="result-hero-title" id="resExamTitle">SSC CGL Tier-1 Scorecard</h2>
       <p style="color:var(--text-muted); font-size:15px;">Detailed breakdown of your performance, accuracy, and answers.</p>
 
       <div class="result-stats-row">
         <div class="stat-metric-box">
-          <div class="stat-value" id="resScore">12 / 16</div>
+          <div class="stat-value" id="resScore">14 / 16</div>
           <div class="stat-label">Total Score</div>
         </div>
         <div class="stat-metric-box">
-          <div class="stat-value" id="resAccuracy">75%</div>
+          <div class="stat-value" id="resAccuracy">87%</div>
           <div class="stat-label">Accuracy Rate</div>
         </div>
         <div class="stat-metric-box">
-          <div class="stat-value" id="resAttempted">3 / 4</div>
+          <div class="stat-value" id="resAttempted">8 / 8</div>
           <div class="stat-label">Questions Attempted</div>
         </div>
         <div class="stat-metric-box">
-          <div class="stat-value" id="resTimeSpent">03:42</div>
+          <div class="stat-value" id="resTimeSpent">22:45</div>
           <div class="stat-label">Time Taken</div>
         </div>
       </div>
@@ -403,8 +549,8 @@
     </div>
   </dialog>
 
-  <!-- Scripts -->
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Scripts with cache busting query -->
+  <script src="js/data.js?v=3.6"></script>
+  <script src="js/app.js?v=3.6"></script>
 </body>
 </html>

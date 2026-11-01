@@ -17,7 +17,7 @@ const app = {
   timerInterval: null,
   examStartTime: null,
   solutionFilter: "all",
-  selectedCategory: "all",
+  selectedCategory: "ssc_cgl",
   selectedSscYear: "all",
   lastResultData: null,
 
@@ -308,8 +308,7 @@ const app = {
     } else {
       if (yearBar) yearBar.classList.add("hide");
       if (heading) {
-        if (cat === "jee_neet") heading.textContent = "JEE & NEET Test Series";
-        else if (cat === "quant") heading.textContent = "Quantitative Aptitude Drills";
+        if (cat === "general") heading.textContent = "Quick General Mock Tests";
         else heading.textContent = "Available tests";
       }
     }
@@ -335,7 +334,9 @@ const app = {
     let filteredExams = APP_DATA.exams;
 
     // Filter by Category
-    if (app.selectedCategory !== "all") {
+    if (app.selectedCategory === "general") {
+      filteredExams = filteredExams.filter(e => e.category !== "ssc_cgl" || e.id === "ssc_ga_maths");
+    } else if (app.selectedCategory !== "all") {
       filteredExams = filteredExams.filter(e => e.category === app.selectedCategory);
     }
 
